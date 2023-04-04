@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c535jldhef2+y8m91%d@519ilfu9)u9c@4m*=xst(#5ovrh4p('
+SECRET_KEY = 'django-insecure-u&z+$39*-up8@w5729=%kh=ut7c3il8u)elpq#9+j3pk**j5)m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,8 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'LittleLemonDRF',
 ]
 
 MIDDLEWARE = [
@@ -125,11 +123,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    # ENTER YOUR CODE HERE
-    'DEFAULT_FILTER_BACKENDS': [
-        'rest_framework.filters.OrderingFilter',
-        'rest_framework.filters.SearchFilter',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 2,  
+
+    # Add code to assign default authentication classes
+    
 }
