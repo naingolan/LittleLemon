@@ -1,12 +1,18 @@
-from .models import MenuItem
 from rest_framework import serializers
+from .models import MenuItem, Category
 
-class MenuItemsSerializer(serializers.ModelSerializer):
+class CategorySerializer (serializers.ModelSerializer):
     class Meta:
-        model =  MenuItem
-        fields = ['id','title', 'price','inventory']
-        extra_kwargs = {
-            'price': {'min_value':2},
-            'inventory': {'min_value': 0}
-            }
+        model = Category
+        fields = ['id','title']
+        
+class MenuItemSerializer(serializers.ModelSerializer):
+    category_id = serializers.IntegerField(write_only=True)
+    category = CategorySerializer(read_only=True)
+    class Meta:
+        model = MenuItem
+        fields = ['id','title','price','inventory','category','category_id']
+        
+
+    
     
