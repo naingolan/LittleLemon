@@ -46,7 +46,18 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ['user', 'menuitem', 'quantity', 'unit_price', 'price', 'menuitem_id', 'menuitem', 'user_id', 'user']
 
 class OrderSerializer(serializers.ModelSerializer):
+    #user = UserSerializer(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(
+        queryset = User.objects.all(),
+        default = serializers.CurrentUserDefault()
+      )
+    delivery_crew= serializers.PrimaryKeyRelatedField(
+          queryset=User.objects.filter(groups__name='delivery_crew'),
+          
+          label='Delivery crew member'
+      )
     class Meta:
-        model: Order
-        fields = [order, delivery_crew, ]
+        model = Order
+        fields = ['user_id', 'user','delivery_crew', 'delivery_crew_id','status', 'total', 'date' ]
+
     

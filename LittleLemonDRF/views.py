@@ -15,13 +15,35 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from .permissions import *
+#importing throttle class
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+
+#Applying Pagination and Filtering and Searching
+from rest_framework.response import Response
+from rest_framework import viewsets
+
+class MenuItemsViewSet(viewsets.ModelViewSet):
+    queryset = MenuItem.objects.all()    
+    serializer_class = MenuItemSerializer
+    search_fields = ['title']
+
+    def get_throttles(self):
+        if self.action =='create':
+            throttle_classes = [UserRateThrottle]
+        else:
+            throttle_classes = []
+        return [throttle() for throttle in throttle_classes]
+
+
 
 #This is to List all items
 @permission_classes([IsAuthenticated])
 class MenuItemListView(generics.ListAPIView):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
+    search_fields = ['title']
 
+    
 #This is to Edit and Delete Items
 @permission_classes([IsManagerUser])
 class MenuItemEditView(generics.RetrieveAPIView, generics.DestroyAPIView):
@@ -29,8 +51,9 @@ class MenuItemEditView(generics.RetrieveAPIView, generics.DestroyAPIView):
     serializer_class = MenuItemSerializer
 
 #This is to Post a new Item
-@permission_classes([IsManagerUser])
-class MenuItemCreateView(generics.CreateAPIView):
+#@permission_classes([IsManagerUser])
+#@permission_classes([IsAdminUser])
+class MenuItemCreateView(generics.ListCreateAPIView):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
 
@@ -104,9 +127,24 @@ class CartListView(generics.ListCreateAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
 
-class CartListView(generics.RetrieveAPIView, generics.DestroyAPIView):
+class CartEditView(generics.RetrieveAPIView, generics.DestroyAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+
+#This if for Order 
+@permission_classes([IsAuthenticated])
+class OrderListView(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+@permission_classes([IsAdminUser])
+class OrderEditView(generics.RetrieveAPIView, generics.DestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+class OrderCreateView(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+
 
 @api_view()
 @permission_classes([IsAdminUser])

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'djoser',
-    'LittleLemonDRF'
+    'LittleLemonDRF',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,24 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES':(
         'rest_framework.permissions.IsAdminUser',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS':(
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE':2,
+
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '2/min',
+        'user': '10/min'
+    }
+
 
     # Add code to assign default authentication classes   
 }
