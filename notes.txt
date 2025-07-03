@@ -1,0 +1,7 @@
+Superuser:
+Username: admin
+Password: 1234
+
+Users:
+Username: manager2, Password: Django123456, Group: Manager
+Username: customer2, Password: Django123456, Group: None
