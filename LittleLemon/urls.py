@@ -15,6 +15,8 @@ urlpatterns = [
 
     # API endpoints
     path('api/', include('bookings.urls')),
+    path('', include('restaurant.urls')),
+
 
     # Djoser user management (registration, password reset, etc.)
     path('auth/', include('djoser.urls')),
